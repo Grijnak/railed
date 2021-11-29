@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Habit, getMinXp, getLevel } from '../../data/habit';
 import Colors from '../Color';
 import LevelNumber from './LevelNumber';
 
 interface Props {
-  habitname: string;
-  level: string;
-  progress: number;
+  habit: Habit;
 }
 
-export default function LevelWidget({ habitname, level, progress }: Props) {
+export default function HabitWidget({ habit }: Props) {
+  const level = getLevel(habit.xp);
+  const minXp = getMinXp(level);
+  const progress = ((habit.xp - minXp) * 100) / (minXp + getMinXp(level + 1));
   return (
     <View
       style={{
@@ -20,14 +22,14 @@ export default function LevelWidget({ habitname, level, progress }: Props) {
         alignItems: 'center',
       }}
     >
-      <LevelNumber level={level} progress={progress} />
+      <LevelNumber level={String(level)} progress={progress} />
       <Text
         style={{
           marginStart: 5,
           color: Colors.text,
         }}
       >
-        {habitname}
+        {habit.name}
       </Text>
     </View>
   );

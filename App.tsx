@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Colors from './app/components/Color';
-import LevelWidget from './app/components/habitWidget/HabitWidget';
+import HabitWidget from './app/components/habitWidget/HabitWidget';
+import { listHabits } from './app/data/habit';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,10 @@ export default function App() {
   return (
     <>
       <View style={styles.container}>
-        <LevelWidget habitname="Habitname" level="22" progress={60} />
+        {listHabits().map(habit => (
+          // <Text key={habit.id}>{habit.name}</Text>
+          <HabitWidget key={habit.id} habit={habit} />
+        ))}
       </View>
       <StatusBar />
     </>
