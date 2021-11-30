@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Habit, getMinXp, getLevel } from '../../data/habit';
+import { Habit, getMinXp, getLevel } from '../../logic/habit';
 import Colors from '../Color';
 import LevelNumber from './LevelNumber';
 
