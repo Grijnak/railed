@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { dummyHabit1, dummyHabit2 } from './dummydata';
 
 export interface Habit {
@@ -7,7 +7,7 @@ export interface Habit {
   xp: number;
 }
 
-interface State {
+export interface HabitState {
   habits: Habit[];
 }
 
@@ -15,19 +15,22 @@ export const habitsSlice = createSlice({
   name: 'habits',
   initialState: [dummyHabit1, dummyHabit2],
   reducers: {
-    habitAdded(state, action) {
-      state.push(action.payload);
+    addXp(state, action) {
+      const { habitId, amount } = action.payload;
+      const habit = state.find(h => h.id === habitId);
+      if (habit) {
+        habit.xp += amount;
+      }
     },
   },
 });
 
-export const selectHabit = createSelector(
-  [(state: State) => state.habits, (state: State, id: number) => id],
-  (habits: Habit[], id: number) => habits[id],
-);
+export const selectHabits = (state: HabitState) => state.habits;
 
-export const selectHabits = (state: { habits: Habit[] }) => state.habits;
+export const selectHabitById = (habitId: number) => {
+  return (state: HabitState) => state.habits.find(h => h.id === habitId);
+};
 
-export const { habitAdded } = habitsSlice.actions;
+export const { addXp } = habitsSlice.actions;
 
 export default habitsSlice.reducer;

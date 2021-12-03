@@ -1,20 +1,20 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
-import { selectHabits } from '../HabitSlice';
+import { HabitState } from '../HabitSlice';
 import Colors from '../../Color';
 import Widget from '../components/Widget';
-import { styles } from '../Styles';
+import { Styles } from '../Styles';
 
 export default function List() {
-  const habits = useSelector(selectHabits);
+  const habits = useSelector((state: HabitState) => state.habits);
 
   return (
-    <View style={styles.screen}>
+    <View style={Styles.screen}>
       {habits.map(habit => (
-        <Widget style={styles.listElement} key={habit.id} habit={habit} />
+        <Widget style={Styles.listElement} key={habit.id} habitId={habit.id} />
       ))}
-      <View style={[styles.listElement, { justifyContent: 'center' }]}>
+      <View style={[Styles.listElement, { justifyContent: 'center' }]}>
         <Text style={{ color: Colors.text }}>+</Text>
       </View>
     </View>

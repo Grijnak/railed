@@ -8,7 +8,7 @@ const dummyHabit1: Habit = {
 const dummyHabit2: Habit = {
   id: 2,
   name: 'Dummy Habit 2',
-  xp: 12,
+  xp: 0,
 };
 
 export { dummyHabit1, dummyHabit2 };

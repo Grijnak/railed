@@ -8,7 +8,7 @@ const StackStyle = {
   headerTintColor: Color.text,
 };
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: Color.mainBg,
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { StackStyle, styles };
+export { StackStyle, Styles };

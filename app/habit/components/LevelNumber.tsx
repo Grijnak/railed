@@ -1,25 +1,48 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Colors from '../../Color';
-import { styles } from '../Styles';
+import { useSelector } from 'react-redux';
+import Color from '../../Color';
+import { selectHabitById } from '../HabitSlice';
+import { getLevel, getMinXp } from '../util/HabitUtils';
 
 interface Props {
-  level: string;
-  progress: number;
+  habitId: number;
+  size: number;
+  border: number;
+  fontSize: number;
 }
 
-export default function LevelNumber({ level, progress }: Props) {
+export default function LevelNumber({
+  habitId,
+  size,
+  border,
+  fontSize,
+}: Props) {
+  const habit = useSelector(selectHabitById(habitId));
+
+  if (!habit) {
+    return null;
+  }
+
+  const level = getLevel(habit.xp);
+  const nextLevelXp = getMinXp(level + 1);
+  const minXp = getMinXp(level);
+  const progress = ((habit.xp - minXp) * 100) / (nextLevelXp - minXp);
+
   return (
     <AnimatedCircularProgress
-      size={styles.listElement.height - styles.listElement.padding * 2}
-      width={1}
+      size={size}
+      width={border}
       fill={progress}
-      tintColor={Colors.levelnumber}
-      backgroundColor={Colors.levelnumberBg}
+      prefill={progress === 0 ? 100 : progress}
+      tintColor={Color.levelnumber}
+      backgroundColor={Color.levelnumberBg}
       rotation={0}
     >
-      {() => <Text style={{ color: Colors.levelnumber }}>{level}</Text>}
+      {() => (
+        <Text style={{ color: Color.levelnumber, fontSize }}>{level}</Text>
+      )}
     </AnimatedCircularProgress>
   );
 }

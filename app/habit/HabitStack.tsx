@@ -3,11 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import List from './screens/List';
 import Details from './screens/Details';
 import { StackStyle } from './Styles';
-import { Habit } from './HabitSlice';
 
 type HabitStackParamList = {
   HabitList: undefined;
-  HabitDetails: { habit: Habit };
+  HabitDetails: { habitId: number };
 };
 
 const Stack = createNativeStackNavigator<HabitStackParamList>();

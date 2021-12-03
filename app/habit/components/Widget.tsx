@@ -1,41 +1,100 @@
-import React from 'react';
-import { Text, StyleProp, ViewStyle, Pressable } from 'react-native';
+import React, { ReactNode } from 'react';
+import { Text, StyleProp, ViewStyle, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { getMinXp, getLevel } from '../util/HabitUtils';
-import { Habit } from '../HabitSlice';
-import Colors from '../../Color';
+import { useDispatch, useSelector } from 'react-redux';
+import Svg, { Circle, G, Polyline } from 'react-native-svg';
+import { addXp, selectHabitById } from '../HabitSlice';
 import LevelNumber from './LevelNumber';
+import Color from '../../Color';
 
 interface Props {
-  habit: Habit;
+  habitId: number;
   style: StyleProp<ViewStyle>;
 }
 
-export default function Widget({ habit, style }: Props) {
-  const navigation = useNavigation();
+function DrawCircle({
+  children,
+  color,
+}: {
+  children: ReactNode;
+  color: string;
+}) {
+  return (
+    <View style={{ aspectRatio: 1 }}>
+      <Svg height="90%" width="90%" viewBox="0 0 100 100">
+        <G>
+          <Circle r="50" cx="50" cy="50" fill={color} />
+          {children}
+        </G>
+      </Svg>
+    </View>
+  );
+}
 
-  const level = getLevel(habit.xp);
-  const minXp = getMinXp(level);
-  const progress = ((habit.xp - minXp) * 100) / (minXp + getMinXp(level + 1));
+export default function Widget({ habitId, style }: Props) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const habit = useSelector(selectHabitById(habitId));
+
+  if (!habit) {
+    return null;
+  }
 
   return (
     <Pressable
       style={[style, { flexDirection: 'row' }]}
       onPress={() =>
-        navigation.navigate('HabitDetails' as never, { habit } as never)
+        navigation.navigate('HabitDetails' as never, { habitId } as never)
       }
     >
-      <LevelNumber level={String(level)} progress={progress} />
+      <LevelNumber habitId={habitId} size={30} border={5} fontSize={-1} />
       <Text
         style={{
           marginStart: 5,
-          color: Colors.text,
+          color: Color.text,
         }}
       >
         {habit.name}
       </Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Pressable
+          style={{ marginRight: 5 }}
+          onPress={() => dispatch(addXp({ habitId: habit.id, amount: 1 }))}
+        >
+          <DrawCircle color="green">
+            <Polyline
+              points="20,50 40,70 75,30"
+              stroke={Color.textLight}
+              strokeWidth="10"
+            />
+          </DrawCircle>
+        </Pressable>
+      </View>
     </Pressable>
   );
 }
-
-// checkmark {'\u2713'} cross {'\u2715'}
+/*
+<Pressable>
+  <View style={{ aspectRatio: 1 }}>
+    <DrawCircle color="red">
+      <Polyline
+        points="25,25 75,75"
+        stroke={Color.textLight}
+        strokeWidth="10"
+      />
+      <Polyline
+        points="25,75 75,25"
+        stroke={Color.textLight}
+        strokeWidth="10"
+      />
+    </DrawCircle>
+  </View>
+</Pressable>;
+*/
