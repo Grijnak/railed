@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Colors from '../../Color';
-import { styles } from '../styles';
+import { styles } from '../Styles';
 
 interface Props {
   level: string;

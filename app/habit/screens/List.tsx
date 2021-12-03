@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectHabits } from '../HabitSlice';
 import Colors from '../../Color';
 import Widget from '../components/Widget';
-import { styles } from '../styles';
+import { styles } from '../Styles';
 
 export default function List() {
   const habits = useSelector(selectHabits);

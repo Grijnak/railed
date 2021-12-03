@@ -1,4 +1,4 @@
-import { getLevel, getMinXp } from './habit';
+import { getLevel, getMinXp } from './HabitUtils';
 
 describe('Levels and xp', () => {
   const minXpPerLevel = [

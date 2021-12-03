@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import List from './screens/List';
 import Details from './screens/Details';
-import { StackStyle } from './styles';
+import { StackStyle } from './Styles';
 import { Habit } from './HabitSlice';
 
 type HabitStackParamList = {

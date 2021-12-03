@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleProp, ViewStyle, Pressable } from 'react-native';
+import { Text, StyleProp, ViewStyle, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { getMinXp, getLevel } from '../util/habit';
+import { getMinXp, getLevel } from '../util/HabitUtils';
 import { Habit } from '../HabitSlice';
 import Colors from '../../Color';
 import LevelNumber from './LevelNumber';
