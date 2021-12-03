@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Colors from '../Color';
+import Colors from '../../Color';
+import { styles } from '../styles';
 
 interface Props {
   level: string;
@@ -11,7 +12,7 @@ interface Props {
 export default function LevelNumber({ level, progress }: Props) {
   return (
     <AnimatedCircularProgress
-      size={25}
+      size={styles.listElement.height - styles.listElement.padding * 2}
       width={1}
       fill={progress}
       tintColor={Colors.levelnumber}

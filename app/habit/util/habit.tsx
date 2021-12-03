@@ -1,17 +1,5 @@
-import { dummyHabit1, dummyHabit2 } from './dummydata';
-
 const c = 21;
 const r = -0.09838692892654695;
-
-interface Habit {
-  id: number;
-  name: string;
-  xp: number;
-}
-
-function listHabits(): Habit[] {
-  return [dummyHabit1, dummyHabit2];
-}
 
 function getMinXp(level: number): number {
   return Math.round(c * (level - (Math.exp(r * level) - 1) / r));
@@ -31,4 +19,4 @@ function getLevel(xp: number): number {
   return l;
 }
 
-export { Habit, listHabits, getMinXp, getLevel };
+export { getMinXp, getLevel };

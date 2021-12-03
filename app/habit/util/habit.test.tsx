@@ -1,4 +1,4 @@
-import { getLevel, getMinXp } from '../../app/logic/habit';
+import { getLevel, getMinXp } from './habit';
 
 describe('Levels and xp', () => {
   const minXpPerLevel = [
@@ -18,7 +18,7 @@ describe('Levels and xp', () => {
   });
 
   it('level function is inverse of xp', () => {
-    for (let i = 0; i < 1000; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
       expect(getLevel(getMinXp(i))).toBe(i);
     }
   });
