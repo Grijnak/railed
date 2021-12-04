@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import useMemoizedSelector from '../../Utils';
 import Color from '../../Color';
@@ -33,7 +33,11 @@ export default function LevelProgress({
       rotation={0}
     >
       {() => (
-        <Text style={{ color: Color.levelnumber, fontSize }}>{level}</Text>
+        <Text
+          style={{ color: Color.levelnumber, fontSize, textAlign: 'center' }}
+        >
+          {level}
+        </Text>
       )}
     </AnimatedCircularProgress>
   );
