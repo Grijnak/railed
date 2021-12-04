@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Color from '../../Color';
-import LevelNumber from '../components/LevelNumber';
+import LevelProgress from '../components/LevelProgress';
 import { selectHabitById } from '../HabitSlice';
 import { HabitStackParamList } from '../HabitStack';
 
@@ -33,7 +33,7 @@ export default function Details({ route, navigation }: Props) {
         alignItems: 'center',
       }}
     >
-      <LevelNumber habitId={habitId} size={200} border={10} fontSize={50} />
+      <LevelProgress habitId={habitId} size={200} border={10} fontSize={50} />
     </View>
   );
 }

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Svg, { Circle, G, Polyline } from 'react-native-svg';
 import { addXp, selectHabitById } from '../HabitSlice';
-import LevelNumber from './LevelNumber';
+import LevelProgress from './LevelProgress';
 import Color from '../../Color';
 
 interface Props {
@@ -48,7 +48,7 @@ export default function Widget({ habitId, style }: Props) {
         navigation.navigate('HabitDetails' as never, { habitId } as never)
       }
     >
-      <LevelNumber habitId={habitId} size={30} border={5} fontSize={-1} />
+      <LevelProgress habitId={habitId} size={30} border={5} fontSize={-1} />
       <Text
         style={{
           marginStart: 5,

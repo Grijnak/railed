@@ -13,7 +13,7 @@ interface Props {
   fontSize: number;
 }
 
-export default function LevelNumber({
+export default function LevelProgress({
   habitId,
   size,
   border,
