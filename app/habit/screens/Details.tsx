@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Color from '../../Color';
 import LevelProgress from '../components/LevelProgress';
-import { selectHabitById } from '../HabitSlice';
+import { makeSelectHabitNameById } from '../HabitSlice';
 import { HabitStackParamList } from '../HabitStack';
 
 type Props = NativeStackScreenProps<HabitStackParamList, 'HabitDetails'>;
@@ -12,17 +12,13 @@ type Props = NativeStackScreenProps<HabitStackParamList, 'HabitDetails'>;
 export default function Details({ route, navigation }: Props) {
   const { habitId } = route.params;
 
-  const habit = useSelector(selectHabitById(habitId));
+  const name = useSelector(makeSelectHabitNameById(habitId));
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: habit ? habit.name : `No habit with id ${habitId} found`,
+      title: name,
     });
   });
-
-  if (!habit) {
-    return null;
-  }
 
   return (
     <View

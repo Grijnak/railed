@@ -3,14 +3,14 @@ import { Text, StyleProp, ViewStyle, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Svg, { Circle, G, Polyline } from 'react-native-svg';
-import { addXp, selectHabitById } from '../HabitSlice';
+import { addXp, makeSelectHabitNameById } from '../HabitSlice';
 import LevelProgress from './LevelProgress';
 import Color from '../../Color';
 
-interface Props {
-  habitId: number;
+type Props = {
+  habitId: string;
   style: StyleProp<ViewStyle>;
-}
+};
 
 function DrawCircle({
   children,
@@ -35,11 +35,7 @@ export default function Widget({ habitId, style }: Props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const habit = useSelector(selectHabitById(habitId));
-
-  if (!habit) {
-    return null;
-  }
+  const name = useSelector(makeSelectHabitNameById(habitId));
 
   return (
     <Pressable
@@ -55,7 +51,7 @@ export default function Widget({ habitId, style }: Props) {
           color: Color.text,
         }}
       >
-        {habit.name}
+        {name}
       </Text>
       <View
         style={{
@@ -66,7 +62,7 @@ export default function Widget({ habitId, style }: Props) {
       >
         <Pressable
           style={{ marginRight: 5 }}
-          onPress={() => dispatch(addXp({ habitId: habit.id, amount: 1 }))}
+          onPress={() => dispatch(addXp({ habitId, amount: 1 }))}
         >
           <DrawCircle color="green">
             <Polyline

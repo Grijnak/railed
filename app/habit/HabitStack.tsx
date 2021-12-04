@@ -6,7 +6,7 @@ import { StackStyle } from './Styles';
 
 type HabitStackParamList = {
   HabitList: undefined;
-  HabitDetails: { habitId: number };
+  HabitDetails: { habitId: string };
 };
 
 const Stack = createNativeStackNavigator<HabitStackParamList>();

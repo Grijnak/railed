@@ -3,15 +3,15 @@ import { Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useSelector } from 'react-redux';
 import Color from '../../Color';
-import { selectHabitById } from '../HabitSlice';
+import { makeSelectHabitXpById } from '../HabitSlice';
 import { getLevel, getMinXp } from '../util/HabitUtils';
 
-interface Props {
-  habitId: number;
+type Props = {
+  habitId: string;
   size: number;
   border: number;
   fontSize: number;
-}
+};
 
 export default function LevelProgress({
   habitId,
@@ -19,23 +19,19 @@ export default function LevelProgress({
   border,
   fontSize,
 }: Props) {
-  const habit = useSelector(selectHabitById(habitId));
+  const xp = useSelector(makeSelectHabitXpById(habitId));
 
-  if (!habit) {
-    return null;
-  }
-
-  const level = getLevel(habit.xp);
+  const level = getLevel(xp);
   const nextLevelXp = getMinXp(level + 1);
-  const minXp = getMinXp(level);
-  const progress = ((habit.xp - minXp) * 100) / (nextLevelXp - minXp);
+  const thisLevelXp = getMinXp(level);
+  const progress = ((xp - thisLevelXp) * 100) / (nextLevelXp - thisLevelXp);
 
   return (
     <AnimatedCircularProgress
       size={size}
       width={border}
       fill={progress}
-      prefill={progress === 0 ? 100 : progress}
+      prefill={progress}
       tintColor={Color.levelnumber}
       backgroundColor={Color.levelnumberBg}
       rotation={0}
