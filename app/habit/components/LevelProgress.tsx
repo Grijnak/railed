@@ -1,10 +1,9 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { useSelector } from 'react-redux';
+import useMemoizedSelector from '../../Utils';
 import Color from '../../Color';
-import { makeSelectHabitXpById } from '../HabitSlice';
-import { getLevel, getMinXp } from '../util/HabitUtils';
+import { makeSelectHabitLevelProgressById } from '../HabitSlice';
 
 type Props = {
   habitId: string;
@@ -19,12 +18,9 @@ export default function LevelProgress({
   border,
   fontSize,
 }: Props) {
-  const xp = useSelector(makeSelectHabitXpById(habitId));
-
-  const level = getLevel(xp);
-  const nextLevelXp = getMinXp(level + 1);
-  const thisLevelXp = getMinXp(level);
-  const progress = ((xp - thisLevelXp) * 100) / (nextLevelXp - thisLevelXp);
+  const { level, progress } = useMemoizedSelector(
+    makeSelectHabitLevelProgressById(habitId),
+  );
 
   return (
     <AnimatedCircularProgress

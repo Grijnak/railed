@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
 import { Text, StyleProp, ViewStyle, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Svg, { Circle, G, Polyline } from 'react-native-svg';
 import { addXp, makeSelectHabitNameById } from '../HabitSlice';
 import LevelProgress from './LevelProgress';
 import Color from '../../Color';
+import useMemoizedSelector from '../../Utils';
 
 type Props = {
   habitId: string;
@@ -35,7 +36,7 @@ export default function Widget({ habitId, style }: Props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const name = useSelector(makeSelectHabitNameById(habitId));
+  const name = useMemoizedSelector(makeSelectHabitNameById(habitId));
 
   return (
     <Pressable

@@ -6,7 +6,6 @@ import HabitStack from './app/habit/HabitStack';
 import { store } from './app/store';
 
 export default function App() {
-  console.log('App launch');
   return (
     <Provider store={store}>
       <NavigationContainer>
