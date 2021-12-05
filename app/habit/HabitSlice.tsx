@@ -22,10 +22,16 @@ export const habitsSlice = createSlice({
   name: 'habits',
   initialState,
   reducers: {
-    addXp(habits, action) {
+    addHabit(state, action) {
+      const { name } = action.payload;
+      const biggerId = (max: number, current: Habit) =>
+        current.id > max ? current.id : max;
+      const newId = Object.values(state).reduce(biggerId, -Infinity) + 1;
+      state[String(newId)] = { id: newId, name, xp: 0 };
+    },
+    addXp(state, action) {
       const { habitId, amount } = action.payload;
-      const habit = habits[habitId];
-      habit.xp += amount;
+      state[habitId].xp += amount;
     },
   },
 });
@@ -49,6 +55,6 @@ export const makeSelectHabitLevelProgressById = (id: string) =>
     };
   });
 
-export const { addXp } = habitsSlice.actions;
+export const { addHabit, addXp } = habitsSlice.actions;
 
 export default habitsSlice.reducer;
