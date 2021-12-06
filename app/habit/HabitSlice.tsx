@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import memoize from 'proxy-memoize';
 import { RootState } from '../store';
-import { dummyHabit1, dummyHabit2 } from './dummydata';
 import { getLevel, getMinXp } from './util/HabitUtils';
 
 export type Habit = {
@@ -15,8 +14,6 @@ type HabitState = {
 };
 
 const initialState: HabitState = {};
-initialState[dummyHabit1.id] = dummyHabit1;
-initialState[dummyHabit2.id] = dummyHabit2;
 
 export const habitsSlice = createSlice({
   name: 'habits',
