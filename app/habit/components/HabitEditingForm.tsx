@@ -37,6 +37,7 @@ function StartDatePicker({
       control={control}
       render={() => (
         <DatePicker
+          style={{ backgroundColor: Color.lightBg }}
           value={date}
           display="default"
           onChange={(_e: Event, d: Date | undefined) => dateProcessor(d)}
@@ -70,7 +71,7 @@ function TimePatternSelectionMenu() {
 
   const dayAmountInput = useWatch({ name: 'dayamount' });
   const [drawDayAmountInput, setDrawDayAmountInput] = useState(
-    dayAmountInput !== 1,
+    Number(dayAmountInput) !== 1 && dayAmountInput !== '',
   );
   const [dayAmount, setDayAmount] = useState(Number(dayAmountInput));
 
@@ -93,47 +94,61 @@ function TimePatternSelectionMenu() {
   );
 
   return (
-    <View style={[Styles.maxRow, { justifyContent: 'flex-start' }]}>
-      <Pressable
-        style={{ flexDirection: 'row' }}
-        onPress={() => setDrawDayAmountInput(true)}
-      >
-        <Text style={styles.text}>
-          Repeat <Text style={{ textDecorationLine: 'underline' }}>every</Text>{' '}
-        </Text>
-        {drawDayAmountInput && <DayAmountInput />}
-        <Text style={styles.text}>
-          {' '}
-          <Text style={{ textDecorationLine: 'underline' }}>
-            {drawDayAmountInput && ' '}
-            day{Number(dayAmountInput) !== 1 && dayAmountInput !== '' && 's'}
-          </Text>
-        </Text>
-      </Pressable>
-      {dayAmount > 0 && (
+    <>
+      <View style={[Styles.maxRow, { justifyContent: 'flex-start' }]}>
         <Pressable
           style={{ flexDirection: 'row' }}
-          onPress={() => setShowStartDatePicker(true)}
+          onPress={() => setDrawDayAmountInput(true)}
         >
           <Text style={styles.text}>
-            , starting from{' '}
+            Repeat{' '}
+            <Text style={{ textDecorationLine: 'underline' }}>every</Text>{' '}
+          </Text>
+          {drawDayAmountInput && <DayAmountInput />}
+          <Text style={styles.text}>
+            {' '}
             <Text style={{ textDecorationLine: 'underline' }}>
-              {startDate.toISOString().split('T')[0]}
+              {drawDayAmountInput && ' '}
+              day{Number(dayAmountInput) !== 1 && dayAmountInput !== '' && 's'}
             </Text>
           </Text>
-          {showStartDatePicker && (
-            <StartDatePicker
-              date={startDate}
-              dateProcessor={(d: Date | undefined) => {
-                setShowStartDatePicker(false);
-                if (d) setStartDate(d);
-              }}
-            />
-          )}
         </Pressable>
+        {dayAmount > 0 && (
+          <Pressable
+            style={{ flexDirection: 'row' }}
+            onPress={() => setShowStartDatePicker(true)}
+          >
+            <Text style={styles.text}>
+              , starting from{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>
+                {startDate.toISOString().split('T')[0]}
+              </Text>
+            </Text>
+          </Pressable>
+        )}
+        <Text style={styles.text}>.</Text>
+      </View>
+      {showStartDatePicker && (
+        <View
+          style={{
+            backgroundColor: Color.lightBg,
+            width: '100%',
+            padding: 5,
+            margin: 2,
+            borderRadius: 20,
+          }}
+        >
+          <StartDatePicker
+            date={startDate}
+            dateProcessor={(d: Date | undefined) => {
+              setShowStartDatePicker(false);
+              console.log(d);
+              if (d) setStartDate(d);
+            }}
+          />
+        </View>
       )}
-      <Text style={styles.text}>.</Text>
-    </View>
+    </>
   );
 }
 
@@ -150,20 +165,22 @@ export default function HabitEditingForm({ defaultValues, onSubmit }: Props) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     <FormProvider {...methods}>
       <View style={Styles.screen}>
-        <View style={{ flex: 1, alignContent: 'center', width: '90%' }}>
+        <View style={{ flex: 1, width: '90%' }}>
           <ControlledTextInput name="name" placeholder="Name" />
           <ControlledTextInput
             name="description"
             placeholder="Description"
             multiline
           />
-          <TimePatternSelectionMenu />
-          <Pressable
-            style={[Styles.listElement, { margin: 5 }]}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text style={{ color: Color.text }}>Add new habit</Text>
-          </Pressable>
+          <View style={{ alignItems: 'center' }}>
+            <TimePatternSelectionMenu />
+            <Pressable
+              style={[Styles.listElement, { margin: 5 }]}
+              onPress={handleSubmit(onSubmit)}
+            >
+              <Text style={{ color: Color.text }}>Add new habit</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </FormProvider>
