@@ -17,11 +17,24 @@ const Styles = StyleSheet.create({
   listElement: {
     backgroundColor: Color.lightBg,
     height: 40,
-    width: '100%',
+    width: '90%',
     padding: 5,
     alignItems: 'center',
+    justifyContent: 'center',
     margin: 2,
     borderRadius: 20,
+  },
+  textInput: {
+    marginVertical: 5,
+    padding: 5,
+    backgroundColor: Color.lightBg,
+    color: Color.textLight,
+    borderRadius: 5,
+  },
+  maxRow: {
+    flexDirection: 'row',
+    width: '100%',
+    alignContent: 'center',
   },
 });
 

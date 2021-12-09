@@ -21,7 +21,7 @@ function DrawCircle({
   color: string;
 }) {
   return (
-    <View style={{ aspectRatio: 1 }}>
+    <View style={{ aspectRatio: 1, justifyContent: 'center' }}>
       <Svg height="90%" width="90%" viewBox="0 0 100 100">
         <G>
           <Circle r="50" cx="50" cy="50" fill={color} />
@@ -61,10 +61,7 @@ export default function Widget({ habitId, style }: Props) {
           justifyContent: 'flex-end',
         }}
       >
-        <Pressable
-          style={{ marginRight: 5 }}
-          onPress={() => dispatch(addXp({ habitId, amount: 1 }))}
-        >
+        <Pressable onPress={() => dispatch(addXp({ habitId, amount: 1 }))}>
           <DrawCircle color="green">
             <Polyline
               points="20,50 40,70 75,30"
