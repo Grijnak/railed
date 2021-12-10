@@ -42,7 +42,7 @@ export default function HabitEditingForm({ defaultValues, onSubmit }: Props) {
               {dayAmount} {startDate.toISOString().split('T')[0]}
             </Text>
             <Pressable
-              style={[Styles.listElement, { margin: 5 }]}
+              style={[Styles.button, { width: '90%', margin: 5 }]}
               onPress={handleSubmit(onSubmit)}
             >
               <Text style={{ color: Color.text }}>Add new habit</Text>

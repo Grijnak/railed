@@ -1,6 +1,11 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextInput, TextStyle } from 'react-native';
+import {
+  KeyboardTypeOptions,
+  ReturnKeyTypeOptions,
+  TextInput,
+  TextStyle,
+} from 'react-native';
 import Color from '../../Color';
 import { Styles } from '../Styles';
 
@@ -10,14 +15,16 @@ export default function ControlledTextInput({
   style,
   multiline,
   autoFocus,
-  numeric,
+  keyboardType,
+  returnKeyType,
 }: {
   name: string;
   placeholder?: string;
   style?: TextStyle[] | TextStyle;
   multiline?: boolean;
   autoFocus?: boolean;
-  numeric?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  returnKeyType?: ReturnKeyTypeOptions;
 }) {
   const { control, register } = useFormContext();
   return (
@@ -29,7 +36,8 @@ export default function ControlledTextInput({
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register(name)}
           style={[Styles.textInput, style]}
-          keyboardType={numeric ? 'numeric' : undefined}
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
           underlineColorAndroid="transparent"
           autoFocus={autoFocus}
           multiline={multiline}
@@ -49,5 +57,6 @@ ControlledTextInput.defaultProps = {
   style: undefined,
   multiline: false,
   autoFocus: false,
-  numeric: false,
+  keyboardType: undefined,
+  returnKeyType: undefined,
 };

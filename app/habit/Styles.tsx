@@ -14,10 +14,9 @@ const Styles = StyleSheet.create({
     backgroundColor: Color.mainBg,
     alignItems: 'center',
   },
-  listElement: {
+  button: {
     backgroundColor: Color.lightBg,
     height: 40,
-    width: '90%',
     padding: 5,
     alignItems: 'center',
     justifyContent: 'center',

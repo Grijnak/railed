@@ -15,11 +15,15 @@ export default function List() {
   return (
     <View style={Styles.screen}>
       {habitIds.map(id => (
-        <Widget style={Styles.listElement} key={id} habitId={id} />
+        <Widget
+          style={[Styles.button, { width: '90%', justifyContent: 'center' }]}
+          key={id}
+          habitId={id}
+        />
       ))}
       <Pressable
         onPress={() => navigation.navigate('HabitNew' as never)}
-        style={[Styles.listElement, { justifyContent: 'center' }]}
+        style={[Styles.button, { width: '90%', justifyContent: 'center' }]}
       >
         <Text style={{ color: Colors.text }}>+</Text>
       </Pressable>
