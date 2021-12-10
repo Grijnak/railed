@@ -24,6 +24,10 @@ const Styles = StyleSheet.create({
     margin: 2,
     borderRadius: 20,
   },
+  text: {
+    color: Color.text,
+    marginVertical: 5,
+  },
   textInput: {
     marginVertical: 5,
     padding: 5,

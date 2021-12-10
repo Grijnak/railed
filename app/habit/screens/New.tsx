@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import HabitEditingForm from '../components/HabitEditingForm';
+import HabitEditingForm from '../components/HabitEditingForm/HabitEditingForm';
 
 export default function New() {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ export default function New() {
       defaultValues={{
         name: '',
         description: '',
-        dayamount: '1',
+        dayamount: 1,
         startdate: new Date(),
       }}
       onSubmit={onSubmit}
