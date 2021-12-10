@@ -14,6 +14,7 @@ export default function DayAmountInput({
       name={dayAmountComponentName}
       keyboardType="number-pad"
       autoFocus={autoFocus}
+      returnKeyType="done"
       style={{
         padding: 0,
         marginVertical: 0,

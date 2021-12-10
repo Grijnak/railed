@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Pressable, View, Text } from 'react-native';
 import Color from '../../../Color';
 import { Styles } from '../../Styles';

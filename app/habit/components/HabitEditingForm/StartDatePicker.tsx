@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import DatePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, Pressable, Text, View, ViewStyle } from 'react-native';

@@ -84,7 +84,7 @@ export default function TimePatternSelectionMenu({
             />
           )}
           <Text style={Styles.text}>
-            {' '}
+            {drawDayAmountInput && ' '}
             <Text style={{ textDecorationLine: 'underline' }}>
               day{Number(dayAmountInput) !== 1 && dayAmountInput !== '' && 's'}
             </Text>
