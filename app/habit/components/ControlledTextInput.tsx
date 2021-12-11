@@ -12,6 +12,7 @@ import { Styles } from '../Styles';
 export default function ControlledTextInput({
   name,
   placeholder,
+  defaultValue,
   style,
   multiline,
   autoFocus,
@@ -20,6 +21,7 @@ export default function ControlledTextInput({
 }: {
   name: string;
   placeholder?: string;
+  defaultValue?: string;
   style?: TextStyle[] | TextStyle;
   multiline?: boolean;
   autoFocus?: boolean;
@@ -30,6 +32,7 @@ export default function ControlledTextInput({
   return (
     <Controller
       name={name}
+      defaultValue={defaultValue}
       control={control}
       render={({ field: { onChange, onBlur, value } }) => (
         <TextInput
@@ -54,6 +57,7 @@ export default function ControlledTextInput({
 
 ControlledTextInput.defaultProps = {
   placeholder: '',
+  defaultValue: undefined,
   style: undefined,
   multiline: false,
   autoFocus: false,

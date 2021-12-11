@@ -6,10 +6,6 @@ import { Styles } from '../../Styles';
 import ControlledTextInput from '../ControlledTextInput';
 import TimePatternSelectionMenu from './TimePatternSelectionMenu';
 
-function TimeSelection() {
-  return <Text style={Styles.text}>Choose a time...</Text>;
-}
-
 type Props = {
   defaultValues: any;
   onSubmit: (data: any) => void;

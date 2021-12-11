@@ -6,11 +6,6 @@ import { Styles } from '../../Styles';
 import DayAmountInput from './DayAmountInput';
 import StartDatePicker from './StartDatePicker';
 
-function parseDayAmount(numberInput: string) {
-  if (numberInput) return Number(numberInput);
-  return 1;
-}
-
 export default function TimePatternSelectionMenu({
   dayAmountComponentName,
   startDateComponentName,
@@ -21,15 +16,44 @@ export default function TimePatternSelectionMenu({
   const { register, setFocus, setValue, getValues } = useFormContext();
 
   const dayAmountInputComponentName = `${dayAmountComponentName}input`;
-
   const dayAmountInput = useWatch({ name: dayAmountInputComponentName });
-  const [dayAmount, setDayAmount] = useState(parseDayAmount(dayAmountInput));
-  const [drawDayAmountInput, setDrawDayAmountInput] = useState(
-    Number(dayAmountInput) !== 1 && dayAmountInput,
+  const [dayAmount, setDayAmount] = useState(
+    Number(getValues([dayAmountComponentName])),
   );
+  const [drawDayAmountInput, setDrawDayAmountInput] = useState(true);
 
   const [startDate, setStartDate] = useState(new Date());
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+
+  useEffect(
+    function setUpDayAmountComponent() {
+      register(dayAmountComponentName);
+      const defaultDayAmount = getValues(dayAmountComponentName);
+      setDayAmount(defaultDayAmount);
+    },
+    [
+      dayAmountComponentName,
+      dayAmountInputComponentName,
+      getValues,
+      register,
+      setValue,
+    ],
+  );
+
+  useEffect(
+    function cleanDayAmountInput() {
+      if (dayAmountInput === undefined) {
+        setValue(dayAmountInputComponentName, String(dayAmount));
+      } else {
+        const cleanedInput = dayAmountInput
+          ? dayAmountInput.replace(/\D/g, '')
+          : '';
+        setValue(dayAmountInputComponentName, cleanedInput);
+        setDayAmount(cleanedInput ? Number(cleanedInput) : 1);
+      }
+    },
+    [dayAmount, dayAmountInput, dayAmountInputComponentName, setValue],
+  );
 
   register(dayAmountInputComponentName, {
     onBlur: function dayAmountInputBlur() {
@@ -37,31 +61,6 @@ export default function TimePatternSelectionMenu({
       setDrawDayAmountInput(dayAmount !== 1);
     },
   });
-
-  useEffect(
-    function registerDayAmountComponent() {
-      register(dayAmountComponentName);
-      setDayAmount(getValues(dayAmountComponentName));
-    },
-    [dayAmountComponentName, getValues, register],
-  );
-
-  useEffect(
-    function cleanDayAmountInput() {
-      const cleanedInput = dayAmountInput
-        ? dayAmountInput.replace(/\D/g, '')
-        : '';
-      setValue(dayAmountInputComponentName, cleanedInput);
-    },
-    [dayAmountInput, dayAmountInputComponentName, setValue],
-  );
-
-  useEffect(
-    function copyInputToDayAmount() {
-      setDayAmount(parseDayAmount(dayAmountInput));
-    },
-    [dayAmountComponentName, dayAmountInput, setValue],
-  );
 
   return (
     <>
@@ -86,7 +85,7 @@ export default function TimePatternSelectionMenu({
           <Text style={Styles.text}>
             {drawDayAmountInput && ' '}
             <Text style={{ textDecorationLine: 'underline' }}>
-              day{Number(dayAmountInput) !== 1 && dayAmountInput !== '' && 's'}
+              day{Number(dayAmount) !== 1 && 's'}
             </Text>
           </Text>
         </Pressable>
