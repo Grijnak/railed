@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import DatePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, Pressable, Text, View, ViewStyle } from 'react-native';
+import { DateTime } from 'luxon';
 import Color from '../../../Color';
 import { Styles } from '../../Styles';
 
@@ -9,43 +10,71 @@ export default function StartDatePicker({
   date,
   style,
   startDateComponentName,
-  dateProcessor,
+  onBlur,
 }: {
-  date: Date;
+  date: DateTime;
   style: ViewStyle;
   startDateComponentName: string;
-  dateProcessor: (d: Date | undefined) => void;
+  onBlur: () => void;
 }) {
-  const { control } = useFormContext();
+  const { control, register, setValue, getValues } = useFormContext();
 
-  const [startDate, setStartDate] = useState<Date>(date);
+  const startDateInputComponentName = `${startDateComponentName}input`;
+  const [startDate, setStartDate] = useState(date);
+
+  useEffect(
+    function setUpStartDateComponent() {
+      register(startDateComponentName);
+      const defaultDate: DateTime = getValues(startDateComponentName).set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      });
+      setStartDate(defaultDate);
+      setValue(startDateInputComponentName, defaultDate.toJSDate());
+    },
+    [
+      startDateComponentName,
+      startDateInputComponentName,
+      getValues,
+      register,
+      setValue,
+    ],
+  );
 
   if (Platform.OS === 'ios') {
     return (
       <View style={style}>
         <Controller
-          name={startDateComponentName}
+          name={startDateInputComponentName}
           control={control}
           render={() => (
             <DatePicker
               style={{ backgroundColor: Color.lightBg }}
-              value={startDate}
+              value={startDate.toJSDate()}
               display="default"
               onChange={(_e: Event, d: Date | undefined) => {
-                if (d) setStartDate(d);
+                if (d) setStartDate(DateTime.fromJSDate(d));
               }}
             />
           )}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <Pressable
-            onPress={() => dateProcessor(undefined)}
+            onPress={onBlur}
             style={[Styles.button, { backgroundColor: Color.veryLightBg }]}
           >
             <Text style={Styles.text}> Cancel </Text>
           </Pressable>
           <Pressable
-            onPress={() => dateProcessor(startDate)}
+            onPress={() => {
+              setValue(
+                startDateComponentName,
+                getValues(startDateInputComponentName),
+              );
+              onBlur();
+            }}
             style={[Styles.button, { backgroundColor: Color.veryLightBg }]}
           >
             <Text style={Styles.text}> Done </Text>
@@ -57,14 +86,20 @@ export default function StartDatePicker({
 
   return (
     <Controller
-      name={startDateComponentName}
+      name={startDateInputComponentName}
       control={control}
       render={() => (
         <DatePicker
           style={{ backgroundColor: Color.lightBg }}
-          value={date}
+          value={startDate.toJSDate()}
           display="default"
-          onChange={(_e: Event, d: Date | undefined) => dateProcessor(d)}
+          onChange={(_e: Event, d: Date | undefined) => {
+            if (d) {
+              d.setHours(0, 0, 0, 0);
+              setValue(startDateComponentName, DateTime.fromJSDate(d));
+            }
+            onBlur();
+          }}
         />
       )}
     />

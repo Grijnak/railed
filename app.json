@@ -17,6 +17,8 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+
+    "plugins": ["@config-plugins/android-jsc-intl"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.grijnak.railed"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { Pressable, View, Text } from 'react-native';
+import { DateTime } from 'luxon';
 import Color from '../../../Color';
 import { Styles } from '../../Styles';
 import DayAmountInput from './DayAmountInput';
@@ -22,22 +23,15 @@ export default function TimePatternSelectionMenu({
   );
   const [drawDayAmountInput, setDrawDayAmountInput] = useState(true);
 
-  const [startDate, setStartDate] = useState(new Date());
+  const startDate = useWatch({ name: startDateComponentName });
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
 
   useEffect(
     function setUpDayAmountComponent() {
       register(dayAmountComponentName);
-      const defaultDayAmount = getValues(dayAmountComponentName);
-      setDayAmount(defaultDayAmount);
+      setDayAmount(getValues(dayAmountComponentName));
     },
-    [
-      dayAmountComponentName,
-      dayAmountInputComponentName,
-      getValues,
-      register,
-      setValue,
-    ],
+    [dayAmountComponentName, getValues, register],
   );
 
   useEffect(
@@ -78,14 +72,13 @@ export default function TimePatternSelectionMenu({
           </Text>
           {drawDayAmountInput && (
             <DayAmountInput
-              autoFocus={drawDayAmountInput}
               dayAmountComponentName={dayAmountInputComponentName}
             />
           )}
           <Text style={Styles.text}>
             {drawDayAmountInput && ' '}
             <Text style={{ textDecorationLine: 'underline' }}>
-              day{Number(dayAmount) !== 1 && 's'}
+              day{dayAmount !== 1 && 's'}
             </Text>
           </Text>
         </Pressable>
@@ -97,7 +90,7 @@ export default function TimePatternSelectionMenu({
             <Text style={Styles.text}>
               , starting from{' '}
               <Text style={{ textDecorationLine: 'underline' }}>
-                {startDate.toISOString().split('T')[0]}
+                {startDate.toLocaleString()}
               </Text>
             </Text>
           </Pressable>
@@ -115,10 +108,7 @@ export default function TimePatternSelectionMenu({
             borderRadius: 20,
           }}
           startDateComponentName={startDateComponentName}
-          dateProcessor={(d: Date | undefined) => {
-            setShowStartDatePicker(false);
-            if (d) setStartDate(d);
-          }}
+          onBlur={() => setShowStartDatePicker(false)}
         />
       )}
     </>
