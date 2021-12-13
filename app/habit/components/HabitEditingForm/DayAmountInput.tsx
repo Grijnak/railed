@@ -4,12 +4,15 @@ import ControlledTextInput from '../ControlledTextInput';
 
 export default function DayAmountInput({
   dayAmountComponentName,
+  focus,
 }: {
   dayAmountComponentName: string;
+  focus: boolean;
 }) {
   return (
     <ControlledTextInput
       name={dayAmountComponentName}
+      autoFocus={focus}
       keyboardType="number-pad"
       returnKeyType="done"
       style={{

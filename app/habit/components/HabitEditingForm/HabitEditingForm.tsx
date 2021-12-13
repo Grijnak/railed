@@ -14,16 +14,25 @@ export default function HabitEditingForm({
   defaultValues: any;
   onSubmit: (data: any) => void;
 }) {
-  const methods = useForm({ defaultValues });
+  const cleanedDefaults = {
+    ...defaultValues,
+    startdate: defaultValues.startdate.set({
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }),
+  };
+
+  const methods = useForm({ defaultValues: cleanedDefaults });
   const { handleSubmit, watch } = methods;
 
   const startDate = watch('startdate');
   const dayAmount = watch('dayamount');
 
   const Timeslots = new Array(5).fill(null).map((_v, id) => {
-    const start = startDate.plus({ hours: (dayAmount * id * 24) / 5 });
     return {
-      start,
+      start: startDate.plus({ hours: (dayAmount * id * 24) / 5 }),
       end: startDate.plus({ hours: (dayAmount * (id + 1) * 24) / 5 }),
     };
   });

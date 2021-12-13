@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { Pressable, View, Text } from 'react-native';
-import { DateTime } from 'luxon';
 import Color from '../../../Color';
 import { Styles } from '../../Styles';
 import DayAmountInput from './DayAmountInput';
@@ -21,7 +20,8 @@ export default function TimePatternSelectionMenu({
   const [dayAmount, setDayAmount] = useState(
     Number(getValues([dayAmountComponentName])),
   );
-  const [drawDayAmountInput, setDrawDayAmountInput] = useState(true);
+  const [drawDayAmountInput, setDrawDayAmountInput] = useState(false);
+  const [focusDayAmountInput, setFocusDayAmountInput] = useState(false);
 
   const startDate = useWatch({ name: startDateComponentName });
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
@@ -29,7 +29,9 @@ export default function TimePatternSelectionMenu({
   useEffect(
     function setUpDayAmountComponent() {
       register(dayAmountComponentName);
-      setDayAmount(getValues(dayAmountComponentName));
+      const defaultDayAmount = getValues(dayAmountComponentName);
+      setDayAmount(defaultDayAmount);
+      setDrawDayAmountInput(defaultDayAmount !== 1);
     },
     [dayAmountComponentName, getValues, register],
   );
@@ -62,8 +64,9 @@ export default function TimePatternSelectionMenu({
         <Pressable
           style={{ flexDirection: 'row' }}
           onPress={() => {
-            setDrawDayAmountInput(true);
             if (drawDayAmountInput) setFocus(dayAmountInputComponentName);
+            else setDrawDayAmountInput(true);
+            setFocusDayAmountInput(true);
           }}
         >
           <Text style={Styles.text}>
@@ -72,6 +75,7 @@ export default function TimePatternSelectionMenu({
           </Text>
           {drawDayAmountInput && (
             <DayAmountInput
+              focus={focusDayAmountInput}
               dayAmountComponentName={dayAmountInputComponentName}
             />
           )}
@@ -107,8 +111,8 @@ export default function TimePatternSelectionMenu({
             margin: 2,
             borderRadius: 20,
           }}
-          startDateComponentName={startDateComponentName}
           onBlur={() => setShowStartDatePicker(false)}
+          startDateComponentName={startDateComponentName}
         />
       )}
     </>

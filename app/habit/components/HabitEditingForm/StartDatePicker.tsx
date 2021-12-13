@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import DatePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, Pressable, Text, View, ViewStyle } from 'react-native';
 import { DateTime } from 'luxon';
@@ -31,6 +31,7 @@ export default function StartDatePicker({
         second: 0,
         millisecond: 0,
       });
+      setValue(startDateComponentName, defaultDate);
       setStartDate(defaultDate);
       setValue(startDateInputComponentName, defaultDate.toJSDate());
     },
@@ -69,10 +70,7 @@ export default function StartDatePicker({
           </Pressable>
           <Pressable
             onPress={() => {
-              setValue(
-                startDateComponentName,
-                getValues(startDateInputComponentName),
-              );
+              setValue(startDateComponentName, startDate);
               onBlur();
             }}
             style={[Styles.button, { backgroundColor: Color.veryLightBg }]}
@@ -96,7 +94,9 @@ export default function StartDatePicker({
           onChange={(_e: Event, d: Date | undefined) => {
             if (d) {
               d.setHours(0, 0, 0, 0);
-              setValue(startDateComponentName, DateTime.fromJSDate(d));
+              const newDate = DateTime.fromJSDate(d);
+              setStartDate(newDate);
+              setValue(startDateComponentName, newDate);
             }
             onBlur();
           }}
