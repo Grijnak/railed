@@ -111,8 +111,8 @@ export default function TimePatternSelectionMenu({
             margin: 2,
             borderRadius: 20,
           }}
-          onBlur={() => setShowStartDatePicker(false)}
           startDateComponentName={startDateComponentName}
+          closingFunction={() => setShowStartDatePicker(false)}
         />
       )}
     </>
